@@ -1,0 +1,18 @@
+{
+   "name": "Release Planning Board",
+   "className": "Rally.apps.releaseplanningboard.ReleasePlanningBoardApp",
+   "server": "https://rally1.rallydev.com",
+   "sdk": "2.0rc2",
+   "javascript": [
+      "TimeboxCardBoard.js",
+      "TimeboxScrollable.js",
+      "ReleasePlanningBoardBacklogColumn.js",
+      "ReleasePlanningBoardColumnProgressBar.js",
+      "ReleasePlanningBoardColumn.js",
+      "TimeboxGridBoard.js",
+      "ReleasePlanningBoardApp.js"
+   ],
+   "css": [
+      "ReleasePlanningBoardApp.css"
+   ]
+}
