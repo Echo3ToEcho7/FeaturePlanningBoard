@@ -115,7 +115,8 @@
         getStoreFilter: function(model) {
             var filters = [];
             Ext.Array.push(filters, this.callParent(arguments));
-            if (model.typeName.toLowerCase().indexOf('portfolioitem') !== -1) {
+            console.dir(model);
+            if (model.isPortfolioItem()) {
                 if (!Ext.isEmpty(this.backlogFilter)) {
                     filters = [Rally.data.wsapi.Filter.fromQueryString(this.backlogFilter)];
                 } else {

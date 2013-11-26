@@ -39,74 +39,88 @@
         },
 
         _showBoard: function() {
-            //var rankScope = 'BACKLOG',
+            var me = this;
             var plugins = [
                     {
                         ptype: 'rallygridboardfilterinfo',
                         isGloballyScoped: Ext.isEmpty(this.getSetting('project')) ? true : false
-                    //},
-                    //{
-                        //ptype: 'rallygridboardaddnew',
-                        //rankScope: rankScope
-                    //},
-                    //{
-                        //ptype: 'rallygridboardartifacttypechooser',
-                        //artifactTypePreferenceKey: 'artifact-types'
                     }
                 ];
 
-            //var subscription = this.getContext().getSubscription();
-            //if (subscription.isHsEdition() || subscription.isExpressEdition()) {
-                //plugins.push({ptype: 'rallygridboardmanagereleases'});
-            //}
-
-            this.gridboard = this.add({
-                xtype: 'releaseplanningboardapptimeboxgridboard',
-                context: this.getContext(),
-                modelNames: 'PortfolioItem/Feature', // TODO: Refactor to detect lowest level PI
-                plugins: plugins,
-                backlogFilter: this.getSetting('query'),
-                cardBoardConfig: {
-                    cardConfig: {
-                        editable: true,
-                        showIconMenus: true,
-                        fields:  this.getCardFieldNames(),
-                        showBlockedReason: true
-                    },
-                    listeners: {
-                        filter: this._onBoardFilter,
-                        filtercomplete: this._onBoardFilterComplete,
-                        scope: this
-                    },
-                    plugins: [
-                        {
-                            ptype: 'rallytimeboxscrollablecardboard',
-                            backwardsButtonConfig: {
-                                elTooltip: 'Previous Release'
-                            },
-                            columnRecordsProperty: 'timeboxRecords',
-                            forwardsButtonConfig: {
-                                elTooltip: 'Next Release'
-                            },
-                            getFirstVisibleScrollableColumn: function(){
-                                return this.getScrollableColumns()[0];
-                            },
-                            getLastVisibleScrollableColumn: function(){
-                                return Rally.util.Array.last(this.getScrollableColumns());
-                            },
-                            getScrollableColumns: function(){
-                                return Ext.Array.slice(this.cmp.getColumns(), 1, this.cmp.getColumns().length);
-                            }
-                        }
-                    ]
-                },
+            Ext.create('Rally.data.wsapi.Store', {
+                autoLoad: true,
+                remoteFilter: false,
+                model: 'TypeDefinition',
+                sorters: [{
+                    property: 'Ordinal',
+                    direction: 'Desc'
+                }],
+                filters: [{
+                    property: 'Ordinal',
+                    value: 0
+                }, {
+                    property: 'Parent.Name',
+                    operator: '=',
+                    value: 'Portfolio Item'
+                }, {
+                    property: 'Creatable',
+                    operator: '=',
+                    value: 'true'
+                }],
                 listeners: {
-                    load: this._onLoad,
-                    toggle: this._publishContentUpdated,
-                    recordupdate: this._publishContentUpdatedNoDashboardLayout,
-                    recordcreate: this._publishContentUpdatedNoDashboardLayout,
-                    preferencesaved: this._publishPreferenceSaved,
-                    scope: this
+                    load: function (store, recs) {
+                        me.modelName = recs[0].get('TypePath');
+                        me.gridboard = this.add({
+                            xtype: 'releaseplanningboardapptimeboxgridboard',
+                            context: this.getContext(),
+                            modelNames: me.modelName,
+                            plugins: plugins,
+                            backlogFilter: this.getSetting('query'),
+                            cardBoardConfig: {
+                                cardConfig: {
+                                    editable: true,
+                                    showIconMenus: true,
+                                    fields:  this.getCardFieldNames(),
+                                    showBlockedReason: true
+                                },
+                                listeners: {
+                                    filter: this._onBoardFilter,
+                                    filtercomplete: this._onBoardFilterComplete,
+                                    scope: this
+                                },
+                                plugins: [
+                                    {
+                                        ptype: 'rallytimeboxscrollablecardboard',
+                                        backwardsButtonConfig: {
+                                            elTooltip: 'Previous Release'
+                                        },
+                                        columnRecordsProperty: 'timeboxRecords',
+                                        forwardsButtonConfig: {
+                                            elTooltip: 'Next Release'
+                                        },
+                                        getFirstVisibleScrollableColumn: function(){
+                                            return this.getScrollableColumns()[0];
+                                        },
+                                        getLastVisibleScrollableColumn: function(){
+                                            return Rally.util.Array.last(this.getScrollableColumns());
+                                        },
+                                        getScrollableColumns: function(){
+                                            return Ext.Array.slice(this.cmp.getColumns(), 1, this.cmp.getColumns().length);
+                                        }
+                                    }
+                                ]
+                            },
+                            listeners: {
+                                load: this._onLoad,
+                                toggle: this._publishContentUpdated,
+                                recordupdate: this._publishContentUpdatedNoDashboardLayout,
+                                recordcreate: this._publishContentUpdatedNoDashboardLayout,
+                                preferencesaved: this._publishPreferenceSaved,
+                                scope: this
+                            }
+                    });
+                },
+                    scope: me
                 }
             });
         },
