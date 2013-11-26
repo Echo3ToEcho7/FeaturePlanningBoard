@@ -3,7 +3,7 @@
 <head>
     <title>Release Planning Board</title>
 
-    <script type="text/javascript" src="//rally1.rallydev.com/apps/2.0rc2/sdk.js?wsapiVersion=1.43"></script>
+    <script type="text/javascript" src="/apps/2.0rc2/sdk.js"></script>
 
     <script type="text/javascript">
         Rally.onReady(function () {
@@ -300,7 +300,6 @@
         getStoreFilter: function(model) {
             var filters = [];
             Ext.Array.push(filters, this.callParent(arguments));
-            console.dir(model);
             if (model.isPortfolioItem()) {
                 if (!Ext.isEmpty(this.backlogFilter)) {
                     filters = [Rally.data.wsapi.Filter.fromQueryString(this.backlogFilter)];
