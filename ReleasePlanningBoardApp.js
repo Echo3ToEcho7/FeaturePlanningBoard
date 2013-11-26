@@ -34,6 +34,7 @@
             var fields = this.callParent(arguments);
             this.appendCardFieldPickerSetting(fields);
             _.last(fields).modelTypes = ['PortfolioItem/Feature'];
+            fields.push({type: 'query'});
             return fields;
         },
 
@@ -64,6 +65,7 @@
                 context: this.getContext(),
                 modelNames: 'PortfolioItem/Feature', // TODO: Refactor to detect lowest level PI
                 plugins: plugins,
+                backlogFilter: this.getSetting('query'),
                 cardBoardConfig: {
                     cardConfig: {
                         editable: true,

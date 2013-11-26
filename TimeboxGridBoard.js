@@ -27,6 +27,8 @@
          */
         numColumns: 3,
 
+        backlogFilter: '',
+
         initComponent: function() {
             this.on('toggle', function(toggleState, gridOrBoard) {
                 if (toggleState === 'board' && !this._hasTimeboxes()) {
@@ -99,6 +101,7 @@
                 xtype: 'releaseplanningboardappbacklogcolumn',
                 flex: this._hasTimeboxes() ? 1 : 1/3,
                 cardLimit: Ext.isIE ? 25 : 100,
+                backlogFilter: this.backlogFilter,
                 columnHeaderConfig: {
                     headerTpl: 'Backlog'
                 }

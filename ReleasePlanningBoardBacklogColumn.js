@@ -20,7 +20,8 @@
         },
 
         config: {
-            value: null
+            value: null,
+            backlogFilter: ''
         },
 
         getColumnStatus: function() {
@@ -114,11 +115,15 @@
         getStoreFilter: function(model) {
             var filters = [];
             Ext.Array.push(filters, this.callParent(arguments));
-            if (model.elementName.indexOf('PortfolioItem') !== -1) {
-                  filters.push({
-                      property: 'Release',
-                      value: null
-                  });
+            if (model.typeName.toLowerCase().indexOf('portfolioitem') !== -1) {
+                if (!Ext.isEmpty(this.backlogFilter)) {
+                    filters = [Rally.data.wsapi.Filter.fromQueryString(this.backlogFilter)];
+                } else {
+                    filters.push({
+                        property: 'Release',
+                        value: null
+                    });
+                }
             }
 
             return filters;

@@ -3,7 +3,7 @@
 <head>
     <title>Release Planning Board</title>
 
-    <script type="text/javascript" src="//rally1.rallydev.com/apps/2.0rc2/sdk.js?wsapiVersion=1.43"></script>
+    <script type="text/javascript" src="/apps/2.0rc2/sdk.js"></script>
 
     <script type="text/javascript">
         Rally.onReady(function () {
@@ -205,7 +205,8 @@
         },
 
         config: {
-            value: null
+            value: null,
+            backlogFilter: ''
         },
 
         getColumnStatus: function() {
@@ -299,11 +300,15 @@
         getStoreFilter: function(model) {
             var filters = [];
             Ext.Array.push(filters, this.callParent(arguments));
-            if (model.elementName.indexOf('PortfolioItem') !== -1) {
-                  filters.push({
-                      property: 'Release',
-                      value: null
-                  });
+            if (model.typeName.toLowerCase().indexOf('portfolioitem') !== -1) {
+                if (!Ext.isEmpty(this.backlogFilter)) {
+                    filters = [Rally.data.wsapi.Filter.fromQueryString(this.backlogFilter)];
+                } else {
+                    filters.push({
+                        property: 'Release',
+                        value: null
+                    });
+                }
             }
 
             return filters;
@@ -622,6 +627,8 @@
          */
         numColumns: 3,
 
+        backlogFilter: '',
+
         initComponent: function() {
             this.on('toggle', function(toggleState, gridOrBoard) {
                 if (toggleState === 'board' && !this._hasTimeboxes()) {
@@ -694,6 +701,7 @@
                 xtype: 'releaseplanningboardappbacklogcolumn',
                 flex: this._hasTimeboxes() ? 1 : 1/3,
                 cardLimit: Ext.isIE ? 25 : 100,
+                backlogFilter: this.backlogFilter,
                 columnHeaderConfig: {
                     headerTpl: 'Backlog'
                 }
@@ -829,6 +837,7 @@
             var fields = this.callParent(arguments);
             this.appendCardFieldPickerSetting(fields);
             _.last(fields).modelTypes = ['PortfolioItem/Feature'];
+            fields.push({type: 'query'});
             return fields;
         },
 
@@ -859,6 +868,7 @@
                 context: this.getContext(),
                 modelNames: 'PortfolioItem/Feature', // TODO: Refactor to detect lowest level PI
                 plugins: plugins,
+                backlogFilter: this.getSetting('query'),
                 cardBoardConfig: {
                     cardConfig: {
                         editable: true,
