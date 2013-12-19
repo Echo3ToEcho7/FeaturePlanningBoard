@@ -79,6 +79,7 @@
 
         _getGridConfig: function () {
             var context = this.getContext();
+            var app = _.first(Ext.ComponentQuery.query('#app'));
             var filters = [
                 {
                   property: 'Release',
@@ -93,7 +94,7 @@
                 stateId: context.getScopedStateId('feature-planning-app'),
                 enableBulkEdit: true,
                 storeConfig: {
-                  model: 'PortfolioItem/Feature',
+                  model: 'PortfolioItem/' + app.featureName,
                   filters: filters
                 },
                 listeners: {

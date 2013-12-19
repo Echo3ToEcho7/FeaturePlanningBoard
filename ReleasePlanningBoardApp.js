@@ -19,6 +19,7 @@
         ],
         mixins: ['Rally.app.CardFieldSelectable'],
         cls: 'planning-board',
+        itemId: 'app',
 
         config: {
             defaultSettings: {
@@ -27,13 +28,37 @@
         },
 
         launch: function() {
-            this._showBoard();
+            var me = this;
+            var piTypeStore = Ext.create('Rally.data.wsapi.Store', {
+              model: 'TypeDefinition',
+              autoload: false,
+              filters: [{
+                property: 'Parent.Name',
+                operator: '=',
+                value: 'Portfolio Item'
+              }, {
+                property: 'Creatable',
+                operator: '=',
+                value: 'true'
+              }, {
+                property: 'Ordinal',
+                operator: '=',
+                value: 0
+              }]
+            });
+
+            piTypeStore.load().then({
+              success: function (recs) {
+                me.featureName = _.first(recs).get('ElementName');
+                me._showBoard();
+              }
+            });
         },
 
         getSettingsFields: function () {
             var fields = this.callParent(arguments);
             this.appendCardFieldPickerSetting(fields);
-            _.last(fields).modelTypes = ['PortfolioItem/Feature'];
+            _.last(fields).modelTypes = ['PortfolioItem/' + this.featureName];
             fields.push({type: 'query'});
             return fields;
         },
