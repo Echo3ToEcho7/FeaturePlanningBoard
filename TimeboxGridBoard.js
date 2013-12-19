@@ -26,6 +26,7 @@
          * @cfg {Number}
          */
         numColumns: 3,
+        enableToggle: true,
 
         backlogFilter: '',
 
@@ -42,7 +43,7 @@
 
             this.callParent(arguments);
         },
-        
+
         _addGridOrBoard: function() {
             if (!this.timeboxes) {
                 this.timeboxType = 'Release';
@@ -73,6 +74,38 @@
                     }
                 },
                 scrollableColumnRecords: this.timeboxes
+            });
+        },
+
+        _getGridConfig: function () {
+            var context = this.getContext();
+            var filters = [
+                {
+                  property: 'Release',
+                  value: null
+                }
+            ];
+
+            return Ext.merge(this.callParent(arguments), {
+                columnCfgs: ['FormattedID', 'Parent', 'Name', 'PercentDoneByStoryPlanEstimate', 'PercentDoneByStoryCount', 'PreliminaryEstimate', 'PlannedStartDate', 'PlannedFinishedDate'],
+                stateEnabled: true,
+                stateful: true,
+                stateId: context.getScopedStateId('feature-planning-app'),
+                enableBulkEdit: true,
+                storeConfig: {
+                  model: 'PortfolioItem/Feature',
+                  filters: filters
+                },
+                listeners: {
+                  beforestatesave: function (t, state, eOpts) {
+                    //console.log('saving state', this.stateEnabled);
+                    //_.each(this.columns, function (c) { 
+                      //console.log(c.text, c.dataIndex); 
+                      //console.dir(c.initialConfig);
+                    //});
+                    //console.dir(state);
+                  }
+                }
             });
         },
 
@@ -179,7 +212,7 @@
             }, this);
 
             this.setLoading(false);
-            this._addGridOrBoard('board');
+            this._addGridOrBoard(this.getToggleState());
         },
 
         _onObjectChange: function(record) {

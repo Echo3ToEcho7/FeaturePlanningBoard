@@ -132,7 +132,9 @@
         isMatchingRecord: function(record) {
             var isMatching = this.callParent(arguments);
             if (record.self.elementName.indexOf('PortfolioItem') !== -1) {
-                isMatching = isMatching && (!record.hasField('Release') || record.get('Release') === null);
+                if (Ext.isEmpty(this.backlogQuery)) {
+                    isMatching = isMatching && (!record.hasField('Release') || record.get('Release') === null);
+                }
             }
             return isMatching;
         }

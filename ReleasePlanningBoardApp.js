@@ -44,7 +44,8 @@
                     {
                         ptype: 'rallygridboardfilterinfo',
                         isGloballyScoped: Ext.isEmpty(this.getSetting('project')) ? true : false
-                    }
+                    },
+                    'rallygridboardfieldpicker'
                 ];
 
             Ext.create('Rally.data.wsapi.Store', {
