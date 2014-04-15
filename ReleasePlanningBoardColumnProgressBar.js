@@ -39,6 +39,7 @@
               //console.log(card.getRecord().get('Release'));
               console.log(index, ' :: ', card.getRecord().get('Release').Name, ' :: ', card.getRecord().get('Name'));
             });
+            console.log(this._getColumn()._cards.getCount());
             return _.reduce(this._getColumn().getCards(true), function(memo, card) {
                 var planEstimate = card.getRecord().get('PreliminaryEstimate') ? parseInt(card.getRecord().get('PreliminaryEstimate').Value, 10) : 0;
                 return Ext.isNumber(planEstimate) ? memo + planEstimate : memo;
