@@ -36,8 +36,8 @@
         _getTotalPointCount: function() {
             var total = 0;
             _.each(this._getColumn().getCards(true), function (card, index) {
-              console.log(card.getRecord().get('Release'));
-              //console.log(index, card.getRecord().raw.Release._refObjectName, card.getRecord().get('Name'));
+              //console.log(card.getRecord().get('Release'));
+              console.log(index, card.getRecord().get('Release').Name, card.getRecord().get('Name'));
             });
             return _.reduce(this._getColumn().getCards(true), function(memo, card) {
                 var planEstimate = card.getRecord().get('PreliminaryEstimate') ? parseInt(card.getRecord().get('PreliminaryEstimate').Value, 10) : 0;
