@@ -36,7 +36,7 @@
         _getTotalPointCount: function() {
             var total = 0;
             _.each(this._getColumn().getCards(true), function (card, index) {
-              console.log(card.getRecord());
+              console.log(card.getRecord().get('Release'));
               //console.log(index, card.getRecord().raw.Release._refObjectName, card.getRecord().get('Name'));
             });
             return _.reduce(this._getColumn().getCards(true), function(memo, card) {
