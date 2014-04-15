@@ -15,8 +15,11 @@
         }),
 
         update: function() {
-            var html = this.renderTpl.apply(this._getRenderData());
-            this.callParent([html]);
+            var self = this;
+            setTimeout(function () {
+              var html = this.renderTpl.apply(this._getRenderData());
+              this.callParent([html]);
+            }, 1000);
         },
 
         _getColumn: function() {
@@ -36,14 +39,13 @@
         _getTotalPointCount: function() {
             var total = 0;
             var self = this;
-            setTimeout(function () {
-              console.log('time');
-              _.each(self._getColumn().getCards(true), function (card, index) {
-                //console.log(card.getRecord().get('Release'));
-                console.log(index, ' :: ', card.getRecord().get('Release').Name, ' :: ', card.getRecord().get('Name'));
-              });
-              console.log(self._getColumn()._cards.getCount());
-            }, 1000);
+
+            _.each(self._getColumn().getCards(true), function (card, index) {
+              //console.log(card.getRecord().get('Release'));
+              console.log(index, ' :: ', card.getRecord().get('Release').Name, ' :: ', card.getRecord().get('Name'));
+            });
+            console.log(self._getColumn()._cards.getCount());
+
             return _.reduce(this._getColumn().getCards(true), function(memo, card) {
                 var planEstimate = card.getRecord().get('PreliminaryEstimate') ? parseInt(card.getRecord().get('PreliminaryEstimate').Value, 10) : 0;
                 return Ext.isNumber(planEstimate) ? memo + planEstimate : memo;
