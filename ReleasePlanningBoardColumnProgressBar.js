@@ -35,7 +35,8 @@
 
         _getTotalPointCount: function() {
             _.each(this._getColumn().getCards(true), function (memo, card) {
-              console.log(card.getRecord().get('Name'));
+              console.log(card);
+              //console.log(card.getRecord().get('Name'));
             });
             return _.reduce(this._getColumn().getCards(true), function(memo, card) {
                 var planEstimate = card.getRecord().get('PreliminaryEstimate') ? parseInt(card.getRecord().get('PreliminaryEstimate').Value, 10) : 0;
