@@ -17,8 +17,8 @@
         update: function() {
             var self = this;
             setTimeout(function () {
-              var html = this.renderTpl.apply(this._getRenderData());
-              this.callParent([html]);
+              var html = self.renderTpl.apply(this._getRenderData());
+              self.callParent([html]);
             }, 1000);
         },
 
