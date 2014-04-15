@@ -1026,9 +1026,11 @@
 
         _onBoardFilterComplete: function() {
            this.setLoading(false);
-           _.each(this.getColumns(), function (c) {
-             c._updateColumnStatus();
-           });
+           setTimeout(function () {
+             _.each(this.getColumns(), function (c) {
+               c._updateColumnStatus();
+             });
+           }, 1000);
         },
 
         _publishContentUpdated: function() {
