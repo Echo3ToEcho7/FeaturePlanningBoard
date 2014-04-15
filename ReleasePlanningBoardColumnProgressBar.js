@@ -35,11 +35,14 @@
 
         _getTotalPointCount: function() {
             var total = 0;
-            _.each(this._getColumn().getCards(true), function (card, index) {
-              //console.log(card.getRecord().get('Release'));
-              console.log(index, ' :: ', card.getRecord().get('Release').Name, ' :: ', card.getRecord().get('Name'));
-            });
-            console.log(this._getColumn()._cards.getCount());
+            var self = this;
+            setTimeout(function () {
+              _.each(self._getColumn().getCards(true), function (card, index) {
+                //console.log(card.getRecord().get('Release'));
+                console.log(index, ' :: ', card.getRecord().get('Release').Name, ' :: ', card.getRecord().get('Name'));
+              });
+              console.log(self._getColumn()._cards.getCount());
+            }, 1000);
             return _.reduce(this._getColumn().getCards(true), function(memo, card) {
                 var planEstimate = card.getRecord().get('PreliminaryEstimate') ? parseInt(card.getRecord().get('PreliminaryEstimate').Value, 10) : 0;
                 return Ext.isNumber(planEstimate) ? memo + planEstimate : memo;
