@@ -16,10 +16,10 @@
 
         update: function() {
             var self = this;
-            setTimeout(function () {
+            //setTimeout(function () {
               var html = self.renderTpl.apply(self._getRenderData());
               self.callParent([html]);
-            }, 1000);
+            //}, 1000);
         },
 
         _getColumn: function() {
