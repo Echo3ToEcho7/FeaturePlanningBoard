@@ -37,6 +37,7 @@
             var total = 0;
             var self = this;
             setTimeout(function () {
+              console.log('time');
               _.each(self._getColumn().getCards(true), function (card, index) {
                 //console.log(card.getRecord().get('Release'));
                 console.log(index, ' :: ', card.getRecord().get('Release').Name, ' :: ', card.getRecord().get('Name'));
