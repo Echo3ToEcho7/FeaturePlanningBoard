@@ -90,7 +90,8 @@
                 beforecarddroppedsave:  this._onBeforeCardDrop,
                 addcard:                this._updateColumnStatus,
                 cardready:                this._updateColumnStatus,
-                load:                   function () { var self = this; setTimeout(function () { self._updateColumnStatus(); }, 1); },
+                ready:                  this._updateColumnStatus,
+                load:                   this._updateColumnStatus,
                 removecard:             this._updateColumnStatus,
                 cardupdated:            this._updateColumnStatus,
                 afterrender: {
