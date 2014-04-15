@@ -173,11 +173,9 @@
 
         _onBoardFilterComplete: function() {
            this.setLoading(false);
-           setTimeout(function () {
-             _.each(this.getColumns(), function (c) {
-               c._updateColumnStatus();
-             });
-           }, 1000);
+           _.each(this.getColumns(), function (c) {
+             c._updateColumnStatus();
+           });
         },
 
         _publishContentUpdated: function() {

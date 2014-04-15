@@ -29,6 +29,7 @@
         alias: 'widget.releaseplanningboardappplanningcolumn',
 
         config: {
+            cardLimit: 200,
             /**
              * @cfg {String}
              * The name of the field inside the record that stores the start date
